@@ -14,23 +14,25 @@ pub struct Args {
 impl Args {
     pub fn new() -> Result<Args, String> {
         let raw_args: Vec<String> = env::args().collect();
-        let mut i: i32 = 0;
-        let mut convertor_type: ConvertorType = ConvertorType::SnakeCase;
-        let mut variable_name: String = "".to_owned();
+        let mut convertor_type = ConvertorType::SnakeCase;
+        let mut variable_name = "".to_owned();
 
-        for raw_arg in raw_args {
-            if i == 0 {
+        if raw_args.len() != 3 {
+            return Err(format!(
+                "Args count must be 2 but found [{}]",
+                raw_args.len() - 1
+            ));
+        }
+
+        for (i, raw_arg) in raw_args.iter().enumerate() {
+            if i == 1 {
                 match Args::get_convertor_type(&raw_arg) {
                     Ok(result) => convertor_type = result,
                     Err(error) => return Err(error),
                 }
-            } else if i == 1 {
+            } else if i == 2 {
                 variable_name = raw_arg.to_owned();
-            } else {
-                return Err("Too many args".to_owned());
             }
-
-            i = i + 1;
         }
 
         return Ok(Args {
@@ -49,7 +51,7 @@ impl Args {
 
     fn get_convertor_type(raw_arg: &String) -> Result<ConvertorType, String> {
         if raw_arg.eq("snake-case") {
-            return Ok(ConvertorType::CamelCase);
+            return Ok(ConvertorType::SnakeCase);
         }
 
         if raw_arg.eq("camel-case") {
