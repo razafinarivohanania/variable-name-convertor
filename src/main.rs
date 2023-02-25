@@ -1,3 +1,8 @@
+mod args;
+
 fn main() {
-    println!("Hello, world!");
+    match args::Args::new() {
+        Ok(args) => println!("{}", args.to_string()),
+        Err(error) => println!("Error occured : {}", error),
+    }
 }
