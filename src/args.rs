@@ -50,15 +50,15 @@ impl Args {
     }
 
     fn get_convertor_type(raw_arg: &String) -> Result<ConvertorType, String> {
-        if raw_arg.eq("snake-case") {
+        if raw_arg.eq("sc") || raw_arg.eq("snake-case") {
             return Ok(ConvertorType::SnakeCase);
         }
 
-        if raw_arg.eq("camel-case") {
+        if raw_arg.eq("cc") || raw_arg.eq("camel-case") {
             return Ok(ConvertorType::CamelCase);
         }
 
-        if raw_arg.eq("kebab-case") {
+        if raw_arg.eq("kc") || raw_arg.eq("kebab-case") {
             return Ok(ConvertorType::KebabCase);
         }
 
